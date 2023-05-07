@@ -1,4 +1,4 @@
-https://learn.cantrill.io/courses/2022818/
+https://learn.cantrill.io/courses/2022818
 
 # OSI model
 - Not all networks implemented using this exactly but good model
@@ -19,7 +19,7 @@ Layer X devices
 - medium: wire, RF, light
 - multicasting: anything received on port is transmitted to other ports
 - no device addressing
-- hub: layer 1 device. Repeats activity from 1 port to other ports
+- *hub*: layer 1 device. Repeats activity from 1 port to other ports
 - collision: only one device can comm at a time, otherwise signals collide and corrupt data
   - cannot detect collisions
 - *1 broadcast & 1 collision domain*
@@ -52,7 +52,7 @@ Layer X devices
       - if successful, one device transmits, other devices detect carrier and wait
       - fail, back-off period is increased
 - hub - layer 1 device, collisions can still occur
-- switch - layer 2 device
+- *switch* - layer 2 device
   - works like a hub
   - understands frames & mac addr's
   - maintains mac addr table
@@ -89,3 +89,36 @@ Layer X devices
   - like frames
   - in frames, src/dest are local, but in packets they can be anywhere
   - in transit, the packets remain the same (mostly), but encap'd in frames
+- Doesn't provide individ. chan's of comm.
+  - only src/dest ip's, can't have mult. apps comm on same device
+  - delivery order not guaranteed
+
+## IPv4
+- example: 133.33.3.7
+  - dotted-decimal snotation
+  - 32 bits
+- IP network part: first 2 octets (133.33)
+- host part: last 2 octets(3.7)
+- assigned statically or by program
+  - DHCP (Dynamic Host Configuraton Protocol)
+- Default Gateway: local network IP address where packets fwded if dest is remote ip
+  - use subnet mask to det. local or remote dest
+    - remote: sent to Default Gateway (usually router)
+    - e.g. 255.255.0.0 = /16 prefix (# of 1's in subnet mask starting from left: 11111111 11111111 00000000 00000000)
+- Routes & Route tables
+  - *Route*: where to fwd packet
+  - example: home request through ISP to AWS
+  - /32: most specific route (only 1 IP address)
+  - /0: least specific (all addr's)
+  - 0.0.0.0/0: default route. Match if nothing else does
+  - Route Table: ISP has mutliple NIC cards. 1+ Route Tables per router
+    - table format: dest. IP mapped to next hop / target
+    - statically populated or BGP (Border Gateway Protocol)
+  - ISP router fwding to AWS router - happens on layer 2
+    - packet has mac addr of aws router
+    - Address Resolution Protocol: gives mac addr of ip addr
+      - is on L2. Broadcasts to all IP's on local network to find who has the dest addr.
+      - remote dest IP: ARP will get the local router's mac addr, encapsulates in frame
+        - when router gets frame, it will see the mac address is for it. Usually if the packet is not for it, a device will drop it, but the router is different and takes it to fwd to next device
+- *router*: L3 device
+  - move from src to dest, and encapsulates packet in L2 on the way

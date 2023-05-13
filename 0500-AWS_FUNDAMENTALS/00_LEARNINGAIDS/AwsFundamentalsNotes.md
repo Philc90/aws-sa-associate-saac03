@@ -139,3 +139,4 @@ identities = users
     - incoming conn's (if allowed) go to cidr
     - *default vpc has 1 cidr (custom has mult)*
     - always same: **172.31.0.0/16**
+    - 1 subnet per AZ

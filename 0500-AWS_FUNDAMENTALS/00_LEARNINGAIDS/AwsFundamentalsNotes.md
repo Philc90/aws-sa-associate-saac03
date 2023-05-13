@@ -137,6 +137,53 @@ identities = users
 - how vpc works in region
   - *VPC CIDR*: start & end IPs
     - incoming conn's (if allowed) go to cidr
-    - *default vpc has 1 cidr (custom has mult)*
-    - always same: **172.31.0.0/16**
+    - *default vpc has 1 cidr (custom has multiple)*
+- default vpc
+  - not very flexible - best practice to use custom
+  - 1 per region, can be deleted & recreated
+      - some services assume default vpc exists!
+  - CIDR always same: `172.31.0.0/16`
     - 1 subnet per AZ
+      - `/20` subnet for AZ
+        - the higher the slash number, the smaller the subnet
+        - up to 16 AZs per region
+  - auto created: Internet Gateway (IGW), Security Group (SG), NACL
+  - subnets are assigned public IPv4 addr's - *specific to default!*
+
+# Elastic Compute Cloud (EC2)
+- IAAS - unit of consumption is instances
+- for compute req's
+- private aws svc by default
+- uses vpc. Set to launch into subnet
+  - AZ resilient
+- config size & capabilities
+- on-demand billing by the second
+- storage: local or Elastic Block Store (EBS)
+- main states:
+  - running
+    - charges: cpu, memory, disk, networking
+  - stopped
+    - charges: disk
+      - storage still allocated, so will see EBS bills
+  - terminated: non-reversible (deleted)
+    - charges: none
+
+## AMI (Amazon Machine Image)
+- create EC2 instance or be created from EC2 instance
+- like server image
+- permissions
+  - public (e.g. Windows, Linux)
+  - private
+    - implicit: owner implicitly has permissions
+    - explicit: specify AWS accounts
+- root volume: boots OS
+- block device mapping: maps other volumes (e.g. data volume) to device ID
+
+## Connecting to EC2
+- windows: RDP
+  - `port 3389`
+- Linux: SSH
+  - `port 22`
+- SSH key pair
+  - private: only gen'd once, keep safe
+  - instance keeps public key, matches private key

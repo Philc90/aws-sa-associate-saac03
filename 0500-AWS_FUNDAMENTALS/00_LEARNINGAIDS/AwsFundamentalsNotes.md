@@ -16,7 +16,7 @@ identities = users
     - account => security credentials
     - device name: *TRAINING-SAA-{{account}}*
     - log out & log back in to test mfa
-  - During course - make sure in N.Virginia region (or global)
+  - *During course - make sure in N.Virginia region (or global)*
   - budget
     - settings => billing dashboard => billing preferences
       - check receive pdf invoice by email, receive free tier usage alerts, receive billing alerts
@@ -187,3 +187,67 @@ identities = users
 - SSH key pair
   - private: only gen'd once, keep safe
   - instance keeps public key, matches private key
+
+## EC2 demo
+- ec2 => key pairs => create key pair
+  - name: A4L
+  - file format
+    - mac/linux/newer windows versions: choose pem
+    - putty/older windows: choose ppk
+- instance => create instance
+  - Name: MyFirstEC2Instance
+  - choose A4L key pair
+  - SG name: MyFirstInstanceSG
+    - SG like mini-firewall
+- instance takes some time to create. Want to see Instance state: Running, Status check: 2/2 checks passed
+- Connect - EC2 Instance Connect
+  - use web console
+- Connect - SSH client
+  - set file permissions on pem file for windows: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connection-prereqs.html#connection-prereqs-private-key
+  > Open File Explorer and right-click on the .pem file. Select Properties > Security tab and choose Advanced. Choose Disable inheritance. Remove access to all users except for the current user. 
+- Terminate EC2 instance
+  - Terminate
+  - Delete SG
+
+# S3 Basics
+- global storage platform
+- regionally resilient
+  - some ability to replic. data b/t regions
+- public svc
+- unlimited data scale, multi-user
+- 2 main obj's
+  - Object: data that S3 stores (e.g. pictures, large scale datasets)
+    - like a file
+    - components
+      - *key*: like filename. Key + Bucket = uniquely access object
+        - *note: in aws, no access initially (including for public services) except for account root user*
+      - *value*: content being stored
+        - range: **0 bytes - 5 TB**
+      - others: version id, metadata, access control, subresources
+  - Bucket: containers for obj's
+    - created for aws region
+    - generally where options, permissions set
+    - data in bucket has primary home region, doesn't leave unless configured
+    - blast radius = region
+      - *blast radius*: effect of disaster is contained within
+    - *bucket names must be globally unique* - most other aws things are unique in region or account
+      - *3-63 chars, lowercase, no underscores*
+      - *start w/ lowercase or number*
+      - *can't be ip formatted (like 1.1.1.1)*
+      - *limit for account: 100 soft limit, 1000 hard limit (thru support requests)*
+        - i.e., can't use for unlimited # of users, use prefixes instead
+    - can hold unlimited # of objects
+    - flat structure
+      - however, when ls it looks like folders
+      - prefix: e.g. /old/Koala1.jpg. /old/ is part of object name
+- default storage solution
+- object store: not file or block store
+  - object store: access whole obj at a time
+  - file store: access files on file system
+  - block store: virtual hdd's
+    - mount point for VMs - can't mount S3 as K:\ or /images
+    - generally limited to 1 thing accessing at a time
+- good for large scale data storage, distribution, upload
+- good for offloading data, e.g. images for blog or videos
+  - use instead of storing on EC2 instance (expensive)
+- default for input/output for many aws svc's

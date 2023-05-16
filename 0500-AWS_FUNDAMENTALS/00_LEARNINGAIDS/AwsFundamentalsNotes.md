@@ -119,6 +119,7 @@ identities = users
   - isolated infra for: compute, storage, networking, power
   - can put resources over mult. AZs for resiliency
   - VPC: spans multiple AZs
+  - https://aws.amazon.com/about-aws/global-infrastructure/regions_az/
 - *resilience level*
   - *globally resilient*: data replic. among mult. regions (e.g. iam, route 53)
   - *regionally resilient*: data replic among mult AZs
@@ -188,7 +189,7 @@ identities = users
   - private: only gen'd once, keep safe
   - instance keeps public key, matches private key
 
-## EC2 demo
+## Demo: EC2
 - ec2 => key pairs => create key pair
   - name: A4L
   - file format
@@ -205,8 +206,8 @@ identities = users
 - Connect - SSH client
   - set file permissions on pem file for windows: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connection-prereqs.html#connection-prereqs-private-key
   > Open File Explorer and right-click on the .pem file. Select Properties > Security tab and choose Advanced. Choose Disable inheritance. Remove access to all users except for the current user. 
-- Terminate EC2 instance
-  - Terminate
+- Cleanup
+  - Terminate EC2 instance
   - Delete SG
 
 # S3 Basics
@@ -240,6 +241,7 @@ identities = users
     - flat structure
       - however, when ls it looks like folders
       - prefix: e.g. /old/Koala1.jpg. /old/ is part of object name
+      - s3 doesn't know about file types
 - default storage solution
 - object store: not file or block store
   - object store: access whole obj at a time
@@ -251,3 +253,45 @@ identities = users
 - good for offloading data, e.g. images for blog or videos
   - use instead of storing on EC2 instance (expensive)
 - default for input/output for many aws svc's
+
+## Demo: S3
+- creating S3 Bucket - Global namespace, so don't need need to pick region
+- Block Public Access settings for this bucket
+  - S3 buckets are private to owner by default
+  - safety feature - uncheck will allow granting public access (doesn't make public)
+    - will see "Objects can be public" under Access when unchecked
+- *Amazon Resource Name (ARN)*: all resources in aws have unique ID
+  - format: arn:{{partition}}:{{svc_name}}:::
+    - partition: most aws resources in most regions, will say "aws"
+    - svc_name: e.g. s3
+    - ::: - optional vals (region / account number) - s3 is globally unique so not needed
+- Create Folder - not really folder, just a file emulating folder
+- Object URL: when copy and open, will get AccessDenied error, b/c no auth.
+  - Open button will authenticate
+- Cleanup
+  - Empty the bucket
+  - Delete
+
+# CloudFormation (CFN) Basics
+- IaC (Infrastructure as Code)
+  - use templates to predictably create infra
+- JSON/YAML
+- parts (YAML example)
+  - Resources: >= 1. Only mandatory part
+  - Description: free text
+    - *if also using AWSTemplateFormatVersion, this must come directly after*
+  - AWSTemplateFormatVersion: used to ext the std over time. If omitted, value is assumed
+  - Metadata: set how the UI presents template
+  - Parameters: prompt user for more info
+  - Mappings: create lookup table
+  - Conditions
+  - Outputs: output after template applied
+- How it's used
+  - Resources: contains *Logical Resources*, e.g. Instance
+    - Logical Resource contains
+      - Type, e.g. AWS::EC2::Instance
+      - Properties
+  - create Stack
+    - contains all Logical Resources. Instantiation of template.
+    - for every logical resource, creates corresp. Physical Resource
+    - CFN keeps logical & physical resources in sync

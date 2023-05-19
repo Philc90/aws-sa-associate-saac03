@@ -27,7 +27,7 @@ identities = users
         - budgeted amount: 10
         - email recipients: use email
 
-# IAM (Identity and Access Management) basics
+# Identity and Access Management (IAM) basics
 - *data always secure across all regions*
 - each account has an instance of iam
 - iam has all permissions as root
@@ -169,7 +169,7 @@ identities = users
   - terminated: non-reversible (deleted)
     - charges: none
 
-## AMI (Amazon Machine Image)
+## Amazon Machine Image (AMI)
 - create EC2 instance or be created from EC2 instance
 - like server image
 - permissions
@@ -295,3 +295,69 @@ identities = users
     - contains all Logical Resources. Instantiation of template.
     - for every logical resource, creates corresp. Physical Resource
     - CFN keeps logical & physical resources in sync
+
+## Demo: CFN
+- CFN function
+  - !Ref: Ref's another part of template
+  - !GetAtt: more capable !Ref
+- [CloudFormation Resource Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+- Create Stack
+  - upload template: example ec2instance.yaml
+    - uploads to auto-created S3 bucket (prefix CF)
+  - name: cfndemo1
+  - check "The following resource(s) require capabilities: [AWS::IAM::Role]"
+- EC2 *Session Manager*: alt to key pair & ssh
+  - requires permissions (instance role)
+  - created with SessionManagerRole in template
+- Delete Stack
+  - deletes logical resources, then corresp. physical res's
+
+# CloudWatch (CW)
+- collects & manages operational data
+  - operational data: genreated by env. detailing performance, logging data
+- 3 products in one
+  - Metrics (or CloudWatch itself): aws products, on-premises env's, other cloud platforms
+    - some metrics run natively (on aws products)
+    - some need CloudWatch Agent
+      - outside aws, on-prem
+      - things not exposed to aws, e.g. processes running on EC2
+  - CloudWatch Logs
+    - need CloudWatch Agent for custom logs, on-prem, things not exposed to aws
+  - CloudWatch Events: event hub
+    - AWS Services & Schedules
+    - gen's events to respond to aws svc (e.g. EC2 inst. stops)
+    - gen's events on timer
+- *namespace*: container for monitoring data
+  - aws services reserve convention: AWS/service
+- *metric*: time ordered set of data points
+  - data point
+  - dimension: key/value pairs within datapoint for diff things/perspectives within same metric
+    - Data for a metric (e.g. CPUUtilization) from many instances
+    - EC2: InstanceId and InstanceType
+- *alarm*: linked to metric. Takes action on criteria
+  - states: OK, ALARM, INSUFFICIENT_DATA (starts here while gathering data)
+
+## Demo: CW Simple Monitoring
+- create EC2 instance
+  - security group name: cloudwatchSG
+  - Detailed CloudWatch monitoring: turn on. Will have charges
+- create Alarm
+  - metric: EC2 => per-instance metrics => find instanceID of EC2 instance
+  - conditions: Static => >= 15%
+  - SNS: remove (useful for prod)
+  - name: cloudwatchtestHIGHCPU
+- connect to EC2 instance
+  - install stress: `sudo yum install stress -y`
+    - `stress -c 1 -t 3600`
+      - enter # of virtual CPUs - t2.micro has 1
+    - after a few mins, cloudwatchtestHIGHCPU alarm will go from OK to ALARM
+- cleanup
+  - delete alarm
+  - terminate instance
+    - wait until in terminated state
+  - delete cloudwatchSG security group
+
+# Shared Responsibility Model
+![SharedResponsibilityModel-1.png](SharedResponsibilityModel-1.png)
+![SharedResponsibilityModel-2.png](SharedResponsibilityModel-2.png)
+- keep this in mind during learning. Which parts you are responsible for, and which parts AWS

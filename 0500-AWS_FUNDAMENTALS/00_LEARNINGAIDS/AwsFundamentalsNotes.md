@@ -361,3 +361,27 @@ identities = users
 ![SharedResponsibilityModel-1.png](SharedResponsibilityModel-1.png)
 ![SharedResponsibilityModel-2.png](SharedResponsibilityModel-2.png)
 - keep this in mind during learning. Which parts you are responsible for, and which parts AWS
+
+# HA vs FT vs DR
+- *High Availability (HA)*: maximize uptime
+  - 99.9: Three 9's ≈ 9 hours/year downtime (8.77)
+  - 9.999: Five 9's ≈ 5 mins/year downtime (5.26)
+- *Fault Tolerance (FT)*: continue operating despite failures
+  - much more complex & expensive
+  - HA = spare equipment + automated repair
+  - FT: Need HA + levels of redundancy (tolerate failures)
+  - example: 4X4 w/ extra wheel. If wheel breaks, can pull over & fix
+- misunderstandings
+  - need HA but choose FT: wasting money
+  - need FT but choose HA: potentially putting life at risk
+  - example: plane. If engine breaks, can't pull over and fix. Have redundant systems
+- *Disaster Recovery (DR)*: enable recovery following disaster. Use when HA & FT fail.
+  - 2 parts: pre-planning & DR Process
+  - have backup data in 2nd location
+  - have backup of processes in 2nd location
+  - designed to keep crucial/irreplacable parts of system safe
+  - example: pilot/passenger ejection systems
+  - exam: tests how quickly service can recover
+
+# Route 53
+- managed DNS svc

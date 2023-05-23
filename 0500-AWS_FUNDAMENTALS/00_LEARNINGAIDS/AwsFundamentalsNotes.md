@@ -384,4 +384,25 @@ identities = users
   - exam: tests how quickly service can recover
 
 # Route 53
-- managed DNS svc
+- managed DNS svc. Like DNS as a svc
+- responsibilities
+  1. register domains
+  2. host zone files
+- *global svc*, single database
+- *globally resilient*
+- needs to scale. needs to be FT
+- PIR: .org domain registry
+- register domain steps
+  - Route 53 checks with registry if domain name is available
+  - creates *zone file*: db containing dns info
+  - allocate name servers for zone
+  - get name server records from registry, add into zone file
+    - *name server records*: allows admin access
+- zone files
+  - 4 *name servers* for zone
+  - Route 53 term for zone files: *hosted zone*
+  - can be AWS public or private (VPCs) zone
+  - stores dns records (Route 53 term: *recordsets*)
+
+# Demo: Route 53
+- registered animals4life4u.org

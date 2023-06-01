@@ -34,23 +34,34 @@
     - has zone, name servers, zone file
       - authoritative for domain
     - records for domain: e.g. www.netflix.com
+
+
+# Walking the (DNS) tree
 - What do we want from DNS? DNS's job is to locate authoritative zone which hosts DNS records you need
   - tree structure
-- *Walking the (DNS) tree*
-  - example: PC wants to visit domain, e.g. www.netflix.com
-    1. check local cache & Hosts file
-    2. query *DNS resolver*: type of DNS server, runs on home router or internet provider
-    3. DNS resolver checks local cache (non-authoritative)
-    4. Contact Root zone
-        - NS records for TLD
-    5. Root zone returns TLD NS
-    6. Resolver queries TLD NS for domain
-    7. TLD registry returns domain NS
-    8. Resolver queries NS for domain (authoritative)
-    9. returns DNS record
-        - resolver caches result
-        - Note: this is CNAME record - need to lookup again!
+- example: user's PC wants to visit domain, e.g. www.netflix.com
+  1. check local cache & Hosts file
+  2. query *DNS resolver*: type of DNS server, runs on home router or internet provider
+  3. DNS resolver checks local cache (non-authoritative)
+  4. Contact Root zone
+      - NS records for TLD
+  5. Root zone returns TLD NS
+  6. Resolver queries TLD NS for domain
+  7. TLD registry returns domain NS
+  8. Resolver queries NS for domain (authoritative)
+  9. returns DNS record
+      - resolver caches result
+      - Note: this is CNAME record - need to lookup again!
   10. return query result to client
-  - Takeaways
-    - no single NS has all answers
-    - every query gives next step
+- Takeaways
+  - no single NS has all answers
+  - every query gives next step
+
+# Registering a domain
+- Domain Registrar and DNS hosting provider can be same or different companies
+- steps
+  1. pay for domain from registrar
+  2/3. create DNS zone, get NS's if hosting provider is same company, need to do separately if different
+  4. register with TLD
+  5. add to .com TLD zone (root zone)
+  6. domain is live

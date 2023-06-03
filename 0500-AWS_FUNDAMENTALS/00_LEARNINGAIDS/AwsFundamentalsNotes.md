@@ -408,5 +408,25 @@ identities = users
 - registered animals4life4u.org
 
 # DNS Record Types
-- Types of records
-  - Name Server (NS)
+- Record Types
+  1. *Name Server (NS)*
+  2. *A (ipv4) / AAAA (ipv6) Name*
+    - map host to ip addr
+  3. *CNAME (Canonical Name)*
+    - usage: point multiple services such as ftp, mail, etc to same server
+    - if ip addr changes, only need to change A name
+    - exam: CNAME can't pt at ip addr, only other names
+  4. *MX*: important for mail
+    ![diagram](DNS-RecordTypes-5.png)
+    - 2 parts
+      - priority: lower is higher priority
+      - value
+        - host (no dot on the right): same zone
+        - fully qualified domain name (ends with dot): same or outside zone
+  5. *TXT*: add arbitrary text. Usages: prove domain ownership, fight spam
+- TTL: # of seconds, can be set on DNS records
+  ![DNS-RecordTypes-7.png](DNS-RecordTypes-7.png)
+  - low values mean more queries to NS, but more control
+  - high values mean fewer queries but less control if you need to change DNS records
+  - DNS resolver could ignore TTL value!
+  - lower TTL in advance of changing DNS records

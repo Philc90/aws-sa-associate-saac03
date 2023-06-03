@@ -60,7 +60,7 @@
 # Registering a domain
 - Domain Registrar and DNS hosting provider can be same or different companies
 - steps
-  1. pay for domain from registrar
+  1. pay for domain from registrar 
   2/3. create DNS zone, get NS's if hosting provider is same company, need to do separately if different
   4. register with TLD
   5. add to .com TLD zone (root zone)

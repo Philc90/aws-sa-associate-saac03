@@ -406,3 +406,7 @@ identities = users
 
 # Demo: Route 53
 - registered animals4life4u.org
+
+# DNS Record Types
+- Types of records
+  - Name Server (NS)

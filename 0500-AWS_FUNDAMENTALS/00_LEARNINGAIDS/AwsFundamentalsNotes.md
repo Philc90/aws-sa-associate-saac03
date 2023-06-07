@@ -32,7 +32,7 @@ identities = users
 - each account has an instance of iam
 - iam has all permissions as root
   - root almost synonymous with aws account - account created with root
-- 3 types of identities
+- 3 types of *identities*
   - *User*: individual thing to access
   - *Group*: Group of users
   - *Role*: used to grant uncertain # of entities to service in account

@@ -217,7 +217,7 @@ identities = users
 - public svc
 - unlimited data scale, multi-user
 - 2 main obj's
-  - Object: data that S3 stores (e.g. pictures, large scale datasets)
+  - *Object*: data that S3 stores (e.g. pictures, large scale datasets)
     - like a file
     - components
       - *key*: like filename. Key + Bucket = uniquely access object
@@ -225,7 +225,7 @@ identities = users
       - *value*: content being stored
         - range: **0 bytes - 5 TB**
       - others: version id, metadata, access control, subresources
-  - Bucket: containers for obj's
+  - *Bucket*: containers for obj's
     - created for aws region
     - generally where options, permissions set
     - data in bucket has primary home region, doesn't leave unless configured
@@ -235,7 +235,7 @@ identities = users
       - *3-63 chars, lowercase, no underscores*
       - *start w/ lowercase or number*
       - *can't be ip formatted (like 1.1.1.1)*
-      - *limit for account: 100 soft limit, 1000 hard limit (thru support requests)*
+      - *limit of # buckets for account: 100 soft limit, 1000 hard limit (thru support requests)*
         - i.e., can't use for unlimited # of users, use prefixes instead
     - can hold unlimited # of objects
     - flat structure
@@ -243,10 +243,10 @@ identities = users
       - prefix: e.g. /old/Koala1.jpg. /old/ is part of object name
       - s3 doesn't know about file types
 - default storage solution
-- object store: not file or block store
-  - object store: access whole obj at a time
-  - file store: access files on file system
-  - block store: virtual hdd's
+- S3 is object store: not file or block store
+  - *object store*: access whole obj at a time
+  - *file store*: access files on file system
+  - *block store*: virtual hdd's
     - mount point for VMs - can't mount S3 as K:\ or /images
     - generally limited to 1 thing accessing at a time
 - good for large scale data storage, distribution, upload

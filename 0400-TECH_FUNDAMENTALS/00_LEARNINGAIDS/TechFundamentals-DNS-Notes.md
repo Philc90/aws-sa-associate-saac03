@@ -15,11 +15,11 @@
   - DNS Root zone
     - knows name servers for TLD
     - every DNS client knows & trusts
-    - 13 IP addresses (each reps many servers)
-      - indep. orgs manage hw
+    - *13 IP addresses* (each reps many servers)
+      - *indep. orgs manage hw*
         - Internet Corporation for Assigned Names and Numbers (ICANN) - operates 1
         - others: NASA, University of Maryland, Verisign
-      - Root zone - db file - managed by Internet Assigned Names Authority (IANA)
+      - *Root zone - db file - managed by Internet Assigned Names Authority (IANA)*
     - stores not much info, but critical
       - high level info on TLDs
         - TLD types: country code or generic
@@ -34,7 +34,8 @@
     - has zone, name servers, zone file
       - authoritative for domain
     - records for domain: e.g. www.netflix.com
-
+- *Registry*: organisation maintains the zones for a TLD (e.g .ORG)
+- *Registrar*: organisation has relationships with the .org TLD zone manager allowing domain registration. sells domain names to the public
 
 # Walking the (DNS) tree
 - What do we want from DNS? DNS's job is to locate authoritative zone which hosts DNS records you need

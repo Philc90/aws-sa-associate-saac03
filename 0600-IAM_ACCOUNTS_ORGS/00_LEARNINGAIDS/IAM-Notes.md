@@ -155,3 +155,4 @@
 - another benefit: certain svcs get cheaper when used more (volume discount) or pay in advance (reservation)
   - consolidate benefits from each acc
 - *Service Control Policy (SCP)*: service. Restrict what acc's in org can do
+- *Role Switch*: outside identity uses role of aws account (login directly or identity federation), but can switch to others

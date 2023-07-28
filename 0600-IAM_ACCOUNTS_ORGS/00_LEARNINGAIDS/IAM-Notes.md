@@ -7,7 +7,7 @@
   - Action
   - Resource: use ARN
 - match Action & Resource for it to take effect
-- *priority of overlapping statements* - exam
+- *priority of overlapping statements* - exam - "Deny, Allow, Deny"
   1. Explicit DENY
   2. Explicit ALLOW
   3. Default DENY (implicit)
@@ -154,5 +154,33 @@
   - single monthly bill covers mgmnt account & all member acc's in org
 - another benefit: certain svcs get cheaper when used more (volume discount) or pay in advance (reservation)
   - consolidate benefits from each acc
-- *Service Control Policy (SCP)*: service. Restrict what acc's in org can do
 - *Role Switch*: outside identity uses role of aws account (login directly or identity federation), but can switch to others
+
+# Service Control Policy (SCP)
+- *Service Control Policy (SCP)*: service. Restrict what acc's in org can do
+- can be att to org, OU, or aws account
+  - inherited down org tree
+- management account of org - special, never affected by SCPs
+- restrict permissions (doesn't grant), including account root user 
+  - acc root user: before said couldn't restrict, but only directly within account
+- *Deny List*: (default arch.) allow by default, and block certain services
+  - applied by default: FullAWSAccess
+  - without this, it would implicit deny everything
+- *Allow List*: block by default, and allow certain services
+  - first need to remove FullAWSAccess
+  - next create explicit allow list
+  - higher admin overhead
+- IPs grant access, SCPs restrict
+  ![img](ServiceControlPolicies-2.png)
+
+# CloudWatch Logs
+- *Public service*
+- store, monitor, access logging data
+- AWS integrations with aws products. For other logging (EC2 OS log), use unified CloudWatch agent
+- *metric filter*: gen. metrics from logs
+  - can set alarms to metrics
+- *log event*: timestamp + data
+  - *log stream*: seq. of log events from same src
+    - *log group*: container for mult. log streams
+      - can set Retention & Permissions
+      - define Metric Filters
